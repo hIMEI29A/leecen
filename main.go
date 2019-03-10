@@ -15,14 +15,9 @@
 package main
 
 import (
-	//"flag"
+	"flag"
 	"fmt"
-	"log"
 	//"os"
-	"os/exec"
-	"strconv"
-	"strings"
-	"time"
 )
 
 const (
@@ -31,11 +26,14 @@ const (
 	CONFIG = "config"
 	UEMAIL = "user.email"
 	UNAME  = "user.name"
+	EMPTY  = " "
 )
 
 const (
 	NOTEXIST = "Given path does not exist"
-	EXIST    = "File already exist, we'll not rewrite it "
+	EXIST    = "File already exist, we'll not rewrite it"
+	NOEMAIL  = "WARNING: Please configure your git. I need your user email"
+	NONAME   = "WARNING: Please configure your git. I need your user name"
 )
 
 // Output colorizing
@@ -50,12 +48,11 @@ const (
 	BOLD         = "\x1B[1m"
 )
 
-//var ()
-
-func makeErrString(errConst string) string {
-	errString := BOLD + RED + errConst + RESET
-	return errString
-}
+var (
+	outputFlag = flag.String("f", "", "save to file")
+	helpCmd    = flag.Bool("h", false, "help message")
+	listFlag   = flag.Bool("l", false, "list of licenses available")
+)
 
 /*
 // ToFile saves results to given file.
@@ -87,46 +84,6 @@ func toFile(filename string, parsed []*Host) {
 		}
 	}
 }*/
-
-// ErrFatal is a basic error handler
-func errFatal(err error) {
-	if err != nil {
-		log.Fatal(err)
-	}
-}
-
-func getYear() int {
-	return time.Now().Year()
-}
-
-func getEmail() string {
-	var mail *exec.Cmd
-	mail = exec.Command(GIT, CONFIG, GET, UEMAIL)
-	uemail, err := mail.Output()
-	errFatal(err)
-
-	return strings.Trim(string(uemail), "\n")
-}
-
-func getUsername() string {
-	var name *exec.Cmd
-	name = exec.Command(GIT, CONFIG, GET, UNAME)
-	username, err := name.Output()
-	errFatal(err)
-
-	return strings.Trim(string(username), "\n")
-}
-
-// iToa converts int to string
-func iToa(i int) string {
-	str := strconv.Itoa(i)
-
-	return str
-}
-
-func getContext() (string, string, string) {
-	return getEmail(), getUsername(), iToa(getYear())
-}
 
 func main() {
 	fmt.Println(getContext())
