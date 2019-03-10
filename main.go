@@ -15,9 +15,119 @@
 package main
 
 import (
+	//"flag"
 	"fmt"
+	"log"
+	//"os"
+	"os/exec"
+	"strconv"
+	"strings"
+	"time"
 )
 
-func main() {
+const (
+	GIT    = "git"
+	GET    = "--get"
+	CONFIG = "config"
+	UEMAIL = "user.email"
+	UNAME  = "user.name"
+)
 
+const (
+	NOTEXIST = "Given path does not exist"
+	EXIST    = "File already exist, we'll not rewrite it "
+)
+
+// Output colorizing
+const (
+	RED   string = "\x1B[31m"
+	GRN          = "\x1B[32m"
+	YEL          = "\x1B[33m"
+	BLU          = "\x1B[34m"
+	CYN          = "\x1B[36m"
+	WHT          = "\x1B[97m"
+	RESET        = "\x1B[0m"
+	BOLD         = "\x1B[1m"
+)
+
+//var ()
+
+func makeErrString(errConst string) string {
+	errString := BOLD + RED + errConst + RESET
+	return errString
+}
+
+/*
+// ToFile saves results to given file.
+func toFile(filename string, parsed []*Host) {
+	//	dir := path.Dir(filepath)
+
+	//	if _, err := os.Stat(dir); os.IsNotExist(err) {
+	//		errString := makeErrString(NOTEXIST)
+	//		newerr := errors.New(NOTEXIST)
+	//		ErrFatal(newerr)
+	//	}
+
+	if _, err := os.Stat(filename); os.IsExist(err) {
+		errString := makeErrString(EXIST)
+		newerr := errors.New(errString)
+		ErrFatal(newerr)
+	}
+
+	file, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE, 0666)
+	ErrFatal(err)
+	defer file.Close()
+
+	for i := range parsed {
+		if toJson == false {
+			file.WriteString(parsed[i].String() + "\n\n\n")
+			ErrFatal(err)
+		} else {
+			file.Write(parsed[i].hostToJson())
+		}
+	}
+}*/
+
+// ErrFatal is a basic error handler
+func errFatal(err error) {
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func getYear() int {
+	return time.Now().Year()
+}
+
+func getEmail() string {
+	var mail *exec.Cmd
+	mail = exec.Command(GIT, CONFIG, GET, UEMAIL)
+	uemail, err := mail.Output()
+	errFatal(err)
+
+	return strings.Trim(string(uemail), "\n")
+}
+
+func getUsername() string {
+	var name *exec.Cmd
+	name = exec.Command(GIT, CONFIG, GET, UNAME)
+	username, err := name.Output()
+	errFatal(err)
+
+	return strings.Trim(string(username), "\n")
+}
+
+// iToa converts int to string
+func iToa(i int) string {
+	str := strconv.Itoa(i)
+
+	return str
+}
+
+func getContext() (string, string, string) {
+	return getEmail(), getUsername(), iToa(getYear())
+}
+
+func main() {
+	fmt.Println(getContext())
 }
