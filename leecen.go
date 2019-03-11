@@ -40,22 +40,18 @@ func getYear() int {
 	return time.Now().Year()
 }
 
-func getEmail() string {
-	var mail *exec.Cmd
-	mail = exec.Command(GIT, CONFIG, GET, UEMAIL)
-	uemail, err := mail.Output()
-	errFatal(err)
+func getCreds() (string, string) {
+	var mail, name *exec.Cmd
 
-	return strings.Trim(string(uemail), "\n")
-}
-
-func getUsername() string {
-	var name *exec.Cmd
 	name = exec.Command(GIT, CONFIG, GET, UNAME)
 	username, err := name.Output()
 	errFatal(err)
 
-	return strings.Trim(string(username), "\n")
+	mail = exec.Command(GIT, CONFIG, GET, UEMAIL)
+	uemail, err := mail.Output()
+	errFatal(err)
+
+	return strings.Trim(string(username), "\n"), strings.Trim(string(uemail), "\n")
 }
 
 // iToa converts int to string
@@ -66,5 +62,8 @@ func iToa(i int) string {
 }
 
 func getContext() (string, string, string) {
-	return getEmail(), getUsername(), iToa(getYear())
+	mail, name := getCreds()
+	year := iToa(getYear())
+
+	return mail, name, year
 }

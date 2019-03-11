@@ -21,8 +21,11 @@
 ### Buld artifacts ###
 README.e.md
 change.log
-__notes
+bin
+bin/
 build.sh
+main
+leecen
 
 ### Vendor folder ###
 
