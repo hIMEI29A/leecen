@@ -15,16 +15,21 @@
 package main
 
 import (
-	"flag"
+	//"flag"
 	"fmt"
 	//"os"
 )
 
+/*
 var (
-	outputFlag = flag.String("f", "", "save to file")
+	outputFlag = flag.String("f", "LICENSE", "save to file")
 	helpFlag   = flag.Bool("h", false, "help message")
-	listFlag   = flag.Bool("l", false, "list of licenses available")
-)
+	listFlag   = flag.Bool("l", false, "list of licenses or headers available")
+
+	headerCmd  = flag.NewFlagSet("header", flag.ExitOnError)
+	headerFlag = headerCmd.String()
+	licenseCmd = flag.NewFlagSet("license", flag.ExitOnError)
+)*/
 
 /*
 // ToFile saves results to given file.

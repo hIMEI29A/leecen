@@ -15,12 +15,13 @@
 package main
 
 const (
-	GIT    = "git"
-	GET    = "--get"
-	CONFIG = "config"
-	UEMAIL = "user.email"
-	UNAME  = "user.name"
-	EMPTY  = " "
+	GIT     = "git"
+	GET     = "--get"
+	CONFIG  = "config"
+	UEMAIL  = "user.email"
+	UNAME   = "user.name"
+	EMPTY   = " "
+	HOMEDIR = "/.leecen"
 )
 
 const (
@@ -42,7 +43,7 @@ const (
 	BOLD  = "\x1B[1m"
 )
 
-var LICENCES = []string{
+var LICENSES = []string{
 	"agpl-3.0",
 	"bsd-2-clause",
 	"epl-1.0",

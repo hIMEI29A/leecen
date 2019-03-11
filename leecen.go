@@ -17,7 +17,7 @@ package main
 import (
 	//	"fmt"
 	"log"
-	//"os"
+	"os"
 	"os/exec"
 	"strconv"
 	"strings"
@@ -66,4 +66,10 @@ func getContext() (string, string, string) {
 	year := iToa(getYear())
 
 	return mail, name, year
+}
+
+func getFilepath(filename string) string {
+	home := os.Getenv("HOME")
+
+	return home + HOMEDIR + filename
 }
