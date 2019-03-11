@@ -21,17 +21,6 @@ import (
 )
 
 /*
-var (
-	outputFlag = flag.String("f", "LICENSE", "save to file")
-	helpFlag   = flag.Bool("h", false, "help message")
-	listFlag   = flag.Bool("l", false, "list of licenses or headers available")
-
-	headerCmd  = flag.NewFlagSet("header", flag.ExitOnError)
-	headerFlag = headerCmd.String()
-	licenseCmd = flag.NewFlagSet("license", flag.ExitOnError)
-)*/
-
-/*
 // ToFile saves results to given file.
 func toFile(filename string, parsed []*Host) {
 	//	dir := path.Dir(filepath)
@@ -64,4 +53,10 @@ func toFile(filename string, parsed []*Host) {
 
 func main() {
 	fmt.Println(getContext())
+	//	fmt.Println(os.Args[1])
+
+	cc := cliParser()
+
+	//list("header")
+	fmt.Println(cc)
 }

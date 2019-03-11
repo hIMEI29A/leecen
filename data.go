@@ -15,13 +15,19 @@
 package main
 
 const (
-	GIT     = "git"
-	GET     = "--get"
-	CONFIG  = "config"
-	UEMAIL  = "user.email"
-	UNAME   = "user.name"
-	EMPTY   = " "
-	HOMEDIR = "/.leecen"
+	GIT      = "git"
+	GET      = "--get"
+	CONFIG   = "config"
+	UEMAIL   = "user.email"
+	UNAME    = "user.name"
+	EMPTY    = " "
+	HOMEDIR  = "/.leecen"
+	HMESS    = " - licenses for your project"
+	USAGE    = "leecen [-h | --help] | COMMAND [ARG] [OPTIONS]"
+	NOARGS   = "No arguments is provided. Try leecene -h for help"
+	FIRSTARG = "Commands must be used. Try leecene -h for help"
+	HEXIST   = "License or header does not exist. Try leecene -h for help"
+	MISSING  = "Argument is missing"
 )
 
 const (
@@ -29,18 +35,6 @@ const (
 	EXIST    = "File already exist, we'll not rewrite it"
 	NOEMAIL  = "WARNING: Please configure your git. I need your user email"
 	NONAME   = "WARNING: Please configure your git. I need your user name"
-)
-
-// Output colorizing
-const (
-	RED   = "\x1B[31m"
-	GRN   = "\x1B[32m"
-	YEL   = "\x1B[33m"
-	BLU   = "\x1B[34m"
-	CYN   = "\x1B[36m"
-	WHT   = "\x1B[97m"
-	RESET = "\x1B[0m"
-	BOLD  = "\x1B[1m"
 )
 
 var LICENSES = []string{
@@ -60,8 +54,14 @@ var LICENSES = []string{
 	"gpl-3.0",
 	"lgpl-3.0",
 	"no-license",
+	"agpl-3.0-header",
+	"apache-2.0-header",
+	"gpl-2.0-header",
+	"gpl-3.0-header",
+	"lgpl-2.1-header",
 }
 
+/*
 var HEADERS = []string{
 	"agpl-3.0-header",
 	"apache-2.0-header",
@@ -69,3 +69,4 @@ var HEADERS = []string{
 	"gpl-3.0-header",
 	"lgpl-2.1-header",
 }
+*/

@@ -16,9 +16,22 @@ package main
 
 import (
 	//"flag"
+	"errors"
 	"fmt"
 	"os"
 	"strings"
+)
+
+// Output colorizing
+const (
+	RED   = "\x1B[31m"
+	GRN   = "\x1B[32m"
+	YEL   = "\x1B[33m"
+	BLU   = "\x1B[34m"
+	CYN   = "\x1B[36m"
+	WHT   = "\x1B[97m"
+	RESET = "\x1B[0m"
+	BOLD  = "\x1B[1m"
 )
 
 var COMMANDS = []string{
@@ -59,9 +72,18 @@ func getIndex(lines []string, line string) int {
 }
 
 func nextArg(arg string) string {
+	var nindex string
 	index := getIndex(os.Args, arg)
 
-	return os.Args[index+1]
+	if index != len(os.Args)-1 {
+		nindex = os.Args[index+1]
+	} else {
+		err := makeErrString(MISSING)
+		newerr := errors.New(err)
+		errFatal(newerr)
+	}
+
+	return nindex
 }
 
 func isCommand(arg string) bool {
@@ -97,8 +119,44 @@ func isArg(arg string) bool {
 	return check
 }
 
-func cliParser() osArgs {
-	var args = osArgs{
+func validateArg(arg string) bool {
+	check := false
+
+	if isArg(arg) == true {
+		for i := range LICENSES {
+			if LICENSES[i] == arg {
+				check = true
+				break
+			}
+		}
+	}
+
+	return check
+}
+
+func help() {
+	fmt.Print(GRN + "leecen" + RESET + HMESS + "\n\n")
+	fmt.Print(CYN + "Usage: " + RESET + USAGE + "\n")
+}
+
+func list(arg string) {
+	if arg == "header" {
+		for i := range LICENSES {
+			if strings.HasSuffix(LICENSES[i], "-header") == true {
+				fmt.Println(LICENSES[i] + " ")
+			}
+		}
+	} else {
+		for i := range LICENSES {
+			if strings.HasSuffix(LICENSES[i], "-header") == false {
+				fmt.Println(LICENSES[i] + " ")
+			}
+		}
+	}
+}
+
+func cliParser() *osArgs {
+	var args = &osArgs{
 		"LICENSE",
 		" ",
 		" ",
@@ -109,6 +167,13 @@ func cliParser() osArgs {
 
 	// no args
 	if len(os.Args) < 2 {
+		err := makeErrString(NOARGS)
+		newerr := errors.New(err)
+		errFatal(newerr)
+	}
+
+	// help
+	if os.Args[1] == "-h" {
 		help()
 		os.Exit(1)
 	}
@@ -124,73 +189,56 @@ func cliParser() osArgs {
 	// first arg is not command
 	for i := range os.Args {
 		if isCommand(os.Args[i]) == true && i >= 2 {
-			help()
-			os.Exit(1)
+			err := makeErrString(FIRSTARG)
+			newerr := errors.New(err)
+			errFatal(newerr)
 		}
 	}
 
-	switch os.Args[1] {
-	//help
-	case "-h":
-		help()
-		os.Exit(1)
+	if isCommand(os.Args[1]) == true {
+		args.Command = os.Args[1]
 
-	case "headers":
-		args.Command = "header"
+		if os.Args[2] != "-l" && validateArg(os.Args[2]) == false {
+			err := makeErrString(HEXIST)
+			newerr := errors.New(err)
+			errFatal(newerr)
+		} else {
+			args.Item = os.Args[2]
+		}
 
+		// list licences or headers available
 		if os.Args[2] == "-l" {
-			fmt.Println(HEADERS)
+			list(os.Args[1])
 			os.Exit(1)
 		}
 
-		if os.Args[2] == "-l" && len(os.Args) > 3 {
-			help()
-			os.Exit(1)
-		}
-
-		if isArg(os.Args[2]) == true {
-			for i := range HEADERS {
-				if os.Args[2] == HEADERS[i] {
-					args.Item = os.Args[2]
-				}
-			}
-
-			// output file provided
-			for i := range os.Args {
-				if os.Args[i] == "-f" && isArg(nextArg(os.Args[i])) == true {
-					args.OutFile = os.Args[i]
-				}
+		// output file provided
+		for i := range os.Args {
+			if os.Args[i] == "-f" && isArg(nextArg(os.Args[i])) == true {
+				args.OutFile = nextArg(os.Args[i])
 			}
 		}
 
-	case "license":
-		args.Command = "license"
-
-		if os.Args[2] == "-l" {
-			fmt.Println(LICENSES)
-			os.Exit(1)
-		}
-
-		if os.Args[2] == "-l" && len(os.Args) > 3 {
-			help()
-			os.Exit(1)
-		}
-
-		if isArg(os.Args[2]) == true {
-			for i := range LICENSES {
-				if os.Args[2] == LICENSES[i] {
-					args.Item = os.Args[2]
-				}
-			}
-
-			// output file provided
-			for i := range os.Args {
-				if os.Args[i] == "-f" && isArg(nextArg(os.Args[i])) == true {
-					args.OutFile = os.Args[i]
-				}
+		// email provided
+		for i := range os.Args {
+			if os.Args[i] == "-e" && isArg(nextArg(os.Args[i])) == true {
+				args.Email = nextArg(os.Args[i])
 			}
 		}
 
+		// name provided
+		for i := range os.Args {
+			if os.Args[i] == "-n" && isArg(nextArg(os.Args[i])) == true {
+				args.Name = nextArg(os.Args[i])
+			}
+		}
+
+		// year provided
+		for i := range os.Args {
+			if os.Args[i] == "-y" && isArg(nextArg(os.Args[i])) == true {
+				args.Year = nextArg(os.Args[i])
+			}
+		}
 	}
 
 	return args
