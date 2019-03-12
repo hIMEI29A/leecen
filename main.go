@@ -20,43 +20,8 @@ import (
 	//"os"
 )
 
-/*
-// ToFile saves results to given file.
-func toFile(filename string, parsed []*Host) {
-	//	dir := path.Dir(filepath)
-
-	//	if _, err := os.Stat(dir); os.IsNotExist(err) {
-	//		errString := makeErrString(NOTEXIST)
-	//		newerr := errors.New(NOTEXIST)
-	//		ErrFatal(newerr)
-	//	}
-
-	if _, err := os.Stat(filename); os.IsExist(err) {
-		errString := makeErrString(EXIST)
-		newerr := errors.New(errString)
-		ErrFatal(newerr)
-	}
-
-	file, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE, 0666)
-	ErrFatal(err)
-	defer file.Close()
-
-	for i := range parsed {
-		if toJson == false {
-			file.WriteString(parsed[i].String() + "\n\n\n")
-			ErrFatal(err)
-		} else {
-			file.Write(parsed[i].hostToJson())
-		}
-	}
-}*/
-
 func main() {
-	fmt.Println(getContext())
-	//	fmt.Println(os.Args[1])
+	args := cliParser()
+	fmt.Println(args)
 
-	cc := cliParser()
-
-	//list("header")
-	fmt.Println(cc)
 }

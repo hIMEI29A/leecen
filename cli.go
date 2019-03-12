@@ -15,30 +15,13 @@
 package main
 
 import (
-	//"flag"
 	"errors"
 	"fmt"
 	"os"
 	"strings"
 )
 
-// Output colorizing
-const (
-	RED   = "\x1B[31m"
-	GRN   = "\x1B[32m"
-	YEL   = "\x1B[33m"
-	BLU   = "\x1B[34m"
-	CYN   = "\x1B[36m"
-	WHT   = "\x1B[97m"
-	RESET = "\x1B[0m"
-	BOLD  = "\x1B[1m"
-)
-
-var COMMANDS = []string{
-	"header",
-	"license",
-}
-
+// Structure to store arguments parsed
 type osArgs struct {
 	// file to record
 	OutFile string
@@ -59,6 +42,7 @@ type osArgs struct {
 	Email string
 }
 
+// Gets os.Args' index of given cli arg
 func getIndex(lines []string, line string) int {
 	var index int
 
@@ -71,6 +55,8 @@ func getIndex(lines []string, line string) int {
 	return index
 }
 
+// Gets cli argument followed given one.
+// If given argument is last argument, gets the error
 func nextArg(arg string) string {
 	var nindex string
 	index := getIndex(os.Args, arg)
@@ -86,6 +72,7 @@ func nextArg(arg string) string {
 	return nindex
 }
 
+// // Checks if given cli option is command
 func isCommand(arg string) bool {
 	check := false
 
@@ -99,6 +86,7 @@ func isCommand(arg string) bool {
 	return check
 }
 
+// // Checks if given cli option is option e.g. "-h" or "-l"
 func isOption(arg string) bool {
 	check := false
 
@@ -109,6 +97,7 @@ func isOption(arg string) bool {
 	return check
 }
 
+// Checks if given cli option is argument
 func isArg(arg string) bool {
 	check := false
 
@@ -119,6 +108,7 @@ func isArg(arg string) bool {
 	return check
 }
 
+// Checks if given arg is header or license
 func validateArg(arg string) bool {
 	check := false
 
@@ -134,11 +124,19 @@ func validateArg(arg string) bool {
 	return check
 }
 
+// Help
 func help() {
-	fmt.Print(GRN + "leecen" + RESET + HMESS + "\n\n")
-	fmt.Print(CYN + "Usage: " + RESET + USAGE + "\n")
+	fmt.Print("\n" + BOLD + GRN + "leecen" + RESET + HMESS + "\n\n")
+	fmt.Print(CYN + BOLD + "Usage: " + RESET + USAGE + "\n")
+	fmt.Print(GRN + BOLD + LINE + RESET + "\n\n")
+	fmt.Print("\t" + YEL + "-h" + RESET + " - read this message" + "\n")
+	fmt.Print("Commands:" + "\n")
+	fmt.Print("\t" + YEL + "header" + RESET + GHEADER + "\n")
+	fmt.Print("\t" + YEL + "license" + RESET + GLICENSE + "\n")
+	fmt.Print("Options:" + "\n")
 }
 
+// Lists headers or licenss available
 func list(arg string) {
 	if arg == "header" {
 		for i := range LICENSES {
@@ -155,6 +153,7 @@ func list(arg string) {
 	}
 }
 
+// Cli parser
 func cliParser() *osArgs {
 	var args = &osArgs{
 		"LICENSE",

@@ -16,6 +16,7 @@ package main
 
 import (
 	//	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
@@ -29,7 +30,7 @@ func makeErrString(errConst string) string {
 	return errString
 }
 
-// ErrFatal is a basic error handler
+// errFatal is a basic error handler
 func errFatal(err error) {
 	if err != nil {
 		log.Fatal(err)
@@ -68,8 +69,52 @@ func getContext() (string, string, string) {
 	return mail, name, year
 }
 
-func getFilepath(filename string) string {
+func getText(command, name string) string {
+	var path string
+
 	home := os.Getenv("HOME")
 
-	return home + HOMEDIR + filename
+	if command == "license" {
+		path = home + HOMEDIR + LCNS + name
+	}
+
+	if command == "headers" {
+		path = home + HOMEDIR + HDRS + name
+	}
+
+	text, err := ioutil.ReadFile(path)
+	errFatal(err)
+
+	return string(text)
+}
+
+// ToFile writes rendered text to given file.
+func toFile(filename, text string, args *osArgs) {
+	var buffer bytes.Buffer
+	path, err := os.Getwd()
+	errFatal(err)
+
+	path = path + "/" + filename
+
+	if _, err := os.Stat(filename); os.IsExist(err) {
+		errString := makeErrString(EXIST)
+		newerr := errors.New(errString)
+		errFatal(newerr)
+	}
+
+	tmpl := template.New("test")
+	tmpl, err = tmpl.Parse(text)
+	errFatal(err)
+
+	file, err := os.OpenFile(path, os.O_RDWR|os.O_CREATE, 0666)
+	errFatal(err)
+	defer file.Close()
+
+	err1 := tmpl.Execute(&buffer, args)
+	errFatal(err1)
+
+	str := buffer.String()
+
+	file.WriteString(str + "\n")
+	errFatal(err)
 }

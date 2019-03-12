@@ -14,6 +14,19 @@
 
 package main
 
+// Output colorizing
+const (
+	RED   = "\x1B[31m"
+	GRN   = "\x1B[32m"
+	YEL   = "\x1B[33m"
+	BLU   = "\x1B[34m"
+	CYN   = "\x1B[36m"
+	WHT   = "\x1B[97m"
+	RESET = "\x1B[0m"
+	BOLD  = "\x1B[1m"
+)
+
+// usefull constants
 const (
 	GIT      = "git"
 	GET      = "--get"
@@ -22,21 +35,28 @@ const (
 	UNAME    = "user.name"
 	EMPTY    = " "
 	HOMEDIR  = "/.leecen"
+	LCNS     = "/licenses/"
+	HDRS     = "/headers/"
 	HMESS    = " - licenses for your project"
-	USAGE    = "leecen [-h | --help] | COMMAND [ARG] [OPTIONS]"
+	USAGE    = "leecen [-h] | COMMAND [ARG] [OPTIONS]"
+	LINE     = "====================================================="
+	GHEADER  = " - make license header for given file"
+	GLICENSE = " - make LICENSE file"
+)
+
+// Error messages
+const (
+	NOTEXIST = "Given path does not exist"
+	EXIST    = "File already exist, we'll not rewrite it"
+	NOEMAIL  = "WARNING: Please configure your git. I need your user email"
+	NONAME   = "WARNING: Please configure your git. I need your user name"
 	NOARGS   = "No arguments is provided. Try leecene -h for help"
 	FIRSTARG = "Commands must be used. Try leecene -h for help"
 	HEXIST   = "License or header does not exist. Try leecene -h for help"
 	MISSING  = "Argument is missing"
 )
 
-const (
-	NOTEXIST = "Given path does not exist"
-	EXIST    = "File already exist, we'll not rewrite it"
-	NOEMAIL  = "WARNING: Please configure your git. I need your user email"
-	NONAME   = "WARNING: Please configure your git. I need your user name"
-)
-
+// all licenses and headers
 var LICENSES = []string{
 	"agpl-3.0",
 	"bsd-2-clause",
@@ -61,12 +81,8 @@ var LICENSES = []string{
 	"lgpl-2.1-header",
 }
 
-/*
-var HEADERS = []string{
-	"agpl-3.0-header",
-	"apache-2.0-header",
-	"gpl-2.0-header",
-	"gpl-3.0-header",
-	"lgpl-2.1-header",
+//cli commands
+var COMMANDS = []string{
+	"header",
+	"license",
 }
-*/
