@@ -15,13 +15,16 @@
 package main
 
 import (
-	//	"fmt"
+	"bytes"
+	"errors"
+	"fmt"
 	"io/ioutil"
-	"log"
+	//	"log"
 	"os"
 	"os/exec"
 	"strconv"
 	"strings"
+	"text/template"
 	"time"
 )
 
@@ -33,7 +36,8 @@ func makeErrString(errConst string) string {
 // errFatal is a basic error handler
 func errFatal(err error) {
 	if err != nil {
-		log.Fatal(err)
+		//		log.Fatal(err)
+		panic(err)
 	}
 }
 
@@ -69,17 +73,20 @@ func getContext() (string, string, string) {
 	return mail, name, year
 }
 
-func getText(command, name string) string {
+func getText(command, item string) string {
 	var path string
 
 	home := os.Getenv("HOME")
+	fmt.Println(home)
 
 	if command == "license" {
-		path = home + HOMEDIR + LCNS + name
+		path = home + HOMEDIR + LCNS + item
+		fmt.Println(path)
 	}
 
-	if command == "headers" {
-		path = home + HOMEDIR + HDRS + name
+	if command == "header" {
+		path = home + HOMEDIR + HDRS + item
+		fmt.Println(path)
 	}
 
 	text, err := ioutil.ReadFile(path)
@@ -89,25 +96,26 @@ func getText(command, name string) string {
 }
 
 // ToFile writes rendered text to given file.
-func toFile(filename, text string, args *osArgs) {
+func toFile(text string, args *osArgs) {
 	var buffer bytes.Buffer
 	path, err := os.Getwd()
 	errFatal(err)
 
-	path = path + "/" + filename
+	path = path + "/" + args.OutFile
 
-	if _, err := os.Stat(filename); os.IsExist(err) {
+	if _, err := os.Stat(path); os.IsExist(err) {
 		errString := makeErrString(EXIST)
 		newerr := errors.New(errString)
 		errFatal(newerr)
 	}
 
-	tmpl := template.New("test")
+	tmpl := template.New(" ")
 	tmpl, err = tmpl.Parse(text)
 	errFatal(err)
 
 	file, err := os.OpenFile(path, os.O_RDWR|os.O_CREATE, 0666)
-	errFatal(err)
+
+	//errFatal(err)
 	defer file.Close()
 
 	err1 := tmpl.Execute(&buffer, args)

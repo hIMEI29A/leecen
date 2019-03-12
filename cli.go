@@ -208,6 +208,7 @@ func cliParser() *osArgs {
 		// list licences or headers available
 		if os.Args[2] == "-l" {
 			list(os.Args[1])
+			fmt.Println("POPO")
 			os.Exit(1)
 		}
 

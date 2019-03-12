@@ -14,14 +14,29 @@
 
 package main
 
-import (
-	//"flag"
-	"fmt"
-	//"os"
-)
+//"flag"
+//"fmt"
+//"os"
 
 func main() {
 	args := cliParser()
-	fmt.Println(args)
 
+	if args.Year == " " {
+		_, _, year := getContext()
+		args.Year = year
+	}
+
+	if args.Name == " " {
+		_, name, _ := getContext()
+		args.Name = name
+	}
+
+	if args.Email == " " {
+		email, _, _ := getContext()
+		args.Email = email
+	}
+
+	text := getText(args.Command, args.Item)
+
+	toFile(text, args)
 }

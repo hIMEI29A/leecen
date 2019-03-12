@@ -34,7 +34,7 @@ const (
 	UEMAIL   = "user.email"
 	UNAME    = "user.name"
 	EMPTY    = " "
-	HOMEDIR  = "/.leecen"
+	HOMEDIR  = "/.leecen/templates"
 	LCNS     = "/licenses/"
 	HDRS     = "/headers/"
 	HMESS    = " - licenses for your project"
