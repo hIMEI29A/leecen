@@ -24,7 +24,7 @@ install_templates() {
   cp -r ./templates/headers  $HOME/.leecen/templates/headers
   cp -r ./templates/licenses  $HOME/.leecen/templates/licenses
   cd ..
-  rm -r leecen
+  sudo rm -r leecen
 }
 
 # Installation

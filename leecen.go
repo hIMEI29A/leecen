@@ -27,6 +27,7 @@ import (
 	"time"
 )
 
+// Creates error message
 func makeErrString(errConst string) string {
 	errString := BOLD + RED + errConst + RESET
 	return errString
@@ -39,10 +40,12 @@ func errFatal(err error) {
 	}
 }
 
+// Gets current year
 func getYear() int {
 	return time.Now().Year()
 }
 
+// Gets git credentials
 func getCreds() (string, string) {
 	var mail, name *exec.Cmd
 
@@ -64,6 +67,7 @@ func iToa(i int) string {
 	return str
 }
 
+// Gets year and git creds
 func getContext() (string, string, string) {
 	mail, name := getCreds()
 	year := iToa(getYear())
@@ -71,6 +75,7 @@ func getContext() (string, string, string) {
 	return mail, name, year
 }
 
+// Gets license or header text from file
 func getText(command, item string) string {
 	var path string
 
