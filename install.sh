@@ -13,13 +13,24 @@ get_latest_release() {
 # Install
 install() {
   wget https://github.com/hIMEI29A/leecen/releases/download/$1/\
-      leecen-"$1"-amd64.deb && sudo dpkg -i leecen-"$1"-amd64.deb
+leecen-"$1"-amd64.deb && sudo dpkg -i leecen-"$1"-amd64.deb
 }
 
-mkdir $HOME/.leecen
-mkdir $HOME/.leecen/templates
+# Install templates
+install_templates() {
+  mkdir $HOME/.leecen
+  mkdir $HOME/.leecen/templates
 
-cp -r ./templates/headers  $HOME/.leecen/templates/headers
-cp -r ./templates/licenses  $HOME/.leecen/templates/licenses
-# cd
-# rm -r leecen
+  cp -r ./templates/headers  $HOME/.leecen/templates/headers
+  cp -r ./templates/licenses  $HOME/.leecen/templates/licenses
+  cd ..
+  rm -r leecen
+}
+
+# Installation
+##############
+
+version=$(get_latest_release)
+install $version
+install_templates
+
