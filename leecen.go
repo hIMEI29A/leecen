@@ -17,9 +17,8 @@ package main
 import (
 	"bytes"
 	"errors"
-	"fmt"
 	"io/ioutil"
-	//	"log"
+	"log"
 	"os"
 	"os/exec"
 	"strconv"
@@ -36,8 +35,7 @@ func makeErrString(errConst string) string {
 // errFatal is a basic error handler
 func errFatal(err error) {
 	if err != nil {
-		//		log.Fatal(err)
-		panic(err)
+		log.Fatal(err)
 	}
 }
 
@@ -77,16 +75,13 @@ func getText(command, item string) string {
 	var path string
 
 	home := os.Getenv("HOME")
-	fmt.Println(home)
 
 	if command == "license" {
 		path = home + HOMEDIR + LCNS + item
-		fmt.Println(path)
 	}
 
 	if command == "header" {
 		path = home + HOMEDIR + HDRS + item
-		fmt.Println(path)
 	}
 
 	text, err := ioutil.ReadFile(path)
