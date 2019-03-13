@@ -21,11 +21,13 @@
 
 ## Install
 
-To install **leecen** do next
+To install **leecen** execute this code
 
 ```sh
 git clone https://github.com/hIMEI29A/leecen && cd leecen && ./install.sh
 ```
+
+Installation script will parse latest release on GitHub, download and install it with `dpkg`, create template directory in your `$HOME` folder and copy templates to it. 
  
 ## Usage
 

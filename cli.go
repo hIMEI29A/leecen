@@ -33,7 +33,7 @@ const (
 	BOLD  = "\x1B[1m"
 )
 
-// usefull constants
+// useful constants
 const (
 	GIT      = "git"
 	GET      = "--get"
@@ -94,12 +94,13 @@ var LICENSES = []string{
 	"lgpl-2.1-header",
 }
 
-//cli commands
+// Cli commands
 var COMMANDS = []string{
 	"header",
 	"license",
 }
 
+// Cli options
 var OPTIONS = []string{
 	"-h",
 	"-l",

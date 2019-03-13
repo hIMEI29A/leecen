@@ -14,10 +14,6 @@
 
 package main
 
-//"flag"
-//"fmt"
-//"os"
-
 func main() {
 	args := cliParser()
 
