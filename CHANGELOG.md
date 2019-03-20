@@ -1,5 +1,21 @@
 # Changelog - 
 
+### 1.0.1
+
+__Changes__
+
+- Error with wrong arguments fixed. New version 1.0.1
+- some errors fixed
+- templates corrected
+
+__Contributors__
+
+- hIMEI
+
+Released by hIMEI, Wed 20 Mar 2019 -
+[see the diff](https://github.com/hIMEI29A/compare/1.0.0...1.0.1#diff)
+______________
+
 ### 1.0.0
 
 __Changes__
@@ -22,7 +38,7 @@ __Contributors__
 - hIMEI
 
 Released by hIMEI, Tue 12 Mar 2019 -
-[see the diff](https://github.com/<no value>//compare/5c130e5223edc44507bdb7134994245e51b7c641...1.0.0#diff)
+[see the diff](https://github.com/hIMEI29A/compare/5c130e5223edc44507bdb7134994245e51b7c641...1.0.0#diff)
 ______________
 
 
