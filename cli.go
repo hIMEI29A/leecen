@@ -179,10 +179,8 @@ func isCommand(arg string) bool {
 func isOption(arg string) bool {
 	check := false
 
-	for i := range os.Args {
-		if arg == os.Args[i] {
-			check = true
-		}
+	if strings.HasSuffix(arg, "-") == true {
+		check = true
 	}
 
 	return check
